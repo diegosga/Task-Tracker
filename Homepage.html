@@ -1,0 +1,40 @@
+<html>
+    
+<head>
+
+    <title>Task Tracker</title>
+    <script src="./taskTracker.js" async></script>
+    <style>
+        .riscado{
+            text-decoration: line-through;
+            color: gray;
+        }
+        .lixo{
+            max-width: 20px;
+            height: auto;  
+            margin: auto;
+            display: block;  
+            align-items: center;
+        }
+        .botao{
+            margin-left: 5px;
+            margin-top: 5px;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Task Tracker</h1>
+    <input type="text" placeholder="Digite sua tarefa" id="tarefa" >
+    <select name="status" id="status">
+        <option value="completo">Completo</option>
+        <option value="incompleto">Incompleto</option>
+    </select>
+    <button type="submit" onclick="Cadastrar()">Enviar</button>
+    <button  onclick="mostrarArray()">Mostrar(teste)</button>
+    <div id = "checkboxes"><br></div>
+
+</body>
+
+</html>
