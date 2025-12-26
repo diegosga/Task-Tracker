@@ -26,17 +26,15 @@ function Cadastrar(){
         const checkbox = document.createElement('input');
         checkbox.addEventListener('click',clickBoxes);
         checkbox.type= "checkbox";
-        //checkbox.id = i;
         checkbox.checked = false;
 
         const label= document.createElement("label");
         label.htmlFor = checkbox.id;
-        label.textContent=`Tarefa:${novaTarefa.tarefa} ; Status: ${novaTarefa.status}`;
+        label.textContent=`Tarefa: ${novaTarefa.tarefa} ; Status: ${novaTarefa.status}`;
         
         const deletar = document.createElement('button');
         deletar.innerHTML = '<img src= "8917572.png" class = "lixo">';
         deletar.classList.add("botao");
-        //deletar.id= i;
         deletar.addEventListener('click',deletarRender);
 
         if(novaTarefa.status == "completo"){
@@ -46,7 +44,6 @@ function Cadastrar(){
 
         divcheck.append(checkbox, label, deletar, quebra);
         container.appendChild(divcheck);
-        //console.log(divcheck.deletar.id);
         mostrarArray();
     }
     else{
@@ -62,17 +59,17 @@ function clickBoxes(){
             const lb = element.querySelector('label');
             if(cb.checked){
                 array[index].status= "completo";
-                lb.textContent = `Tarefa:  ${cb.id}  ${array[index].tarefa} ; Status: ${array[index].status}`;
+                lb.textContent = `Tarefa: ${array[index].tarefa} ; Status: ${array[index].status}`;
                 lb.style.textDecoration = "line-through";
                 lb.classList.add("riscado");
-                mostrarArray();
+                
             }else{
                 array[index].status= "incompleto";
-                lb.textContent = `Tarefa:  ${cb.id}  ${array[index].tarefa} ; Status: ${array[index].status}`;
+                lb.textContent = `Tarefa: ${array[index].tarefa} ; Status: ${array[index].status}`;
                 lb.style.textDecoration = "none";
                 lb.classList.remove("riscado");
-                mostrarArray();
             }
+            mostrarArray();
         });
     }
 function deletarRender(event){
