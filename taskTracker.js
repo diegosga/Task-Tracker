@@ -1,18 +1,17 @@
-
 const container = document.getElementById("checkboxes");
 let array = [];
-
-let i = -1;
 function mostrarArray(){
-    let elementos = "Elementos: \n";
-    for(let i=0; i<array.length; i++){
-        elementos+=`Tarefa:  ${i}  ${array[i].tarefa} ; Status: ${array[i].status}\n`;
-    }
-    console.log(elementos);
+    if (array.length>-1){
+        for(let i=0; i<array.length; i++){
+            console.log(array[i]);
+        
+        }console.log("\n", array.length);
+}else{
+    console.log("Sem elementos no array",i);
+}
 }
 
 function Cadastrar(){
-    i=i+1;
     let task = document.getElementById("tarefa").value;
     let seletor = document.querySelector("#status");
     let opcao = seletor.options[seletor.selectedIndex].value;
@@ -20,14 +19,14 @@ function Cadastrar(){
     if(task && opcao){
         
         array.push(novaTarefa);
-
+        const quebra = document.createElement("br");
         const divcheck = document.createElement('div');
         divcheck.className = "tarefa";        
 
         const checkbox = document.createElement('input');
         checkbox.addEventListener('click',clickBoxes);
         checkbox.type= "checkbox";
-        checkbox.id = i;
+        //checkbox.id = i;
         checkbox.checked = false;
 
         const label= document.createElement("label");
@@ -37,23 +36,18 @@ function Cadastrar(){
         const deletar = document.createElement('button');
         deletar.innerHTML = '<img src= "8917572.png" class = "lixo">';
         deletar.classList.add("botao");
-        deletar.id= i;
-        deletar.addEventListener('click',()=>{
-            divcheck.remove();
-            array.splice(deletar.id, 1);
-            i-=1;
-        });
+        //deletar.id= i;
+        deletar.addEventListener('click',deletarRender);
 
         if(novaTarefa.status == "completo"){
             label.classList.add("riscado");
             checkbox.checked = true;
         }
 
-        divcheck.append(checkbox, label, deletar);
+        divcheck.append(checkbox, label, deletar, quebra);
         container.appendChild(divcheck);
-        container.appendChild(document.createElement("br"));
-
-
+        //console.log(divcheck.deletar.id);
+        mostrarArray();
     }
     else{
         alert("Não foi possível adicionar tarefa");
@@ -71,12 +65,26 @@ function clickBoxes(){
                 lb.textContent = `Tarefa:  ${cb.id}  ${array[index].tarefa} ; Status: ${array[index].status}`;
                 lb.style.textDecoration = "line-through";
                 lb.classList.add("riscado");
-                
+                mostrarArray();
             }else{
                 array[index].status= "incompleto";
                 lb.textContent = `Tarefa:  ${cb.id}  ${array[index].tarefa} ; Status: ${array[index].status}`;
                 lb.style.textDecoration = "none";
                 lb.classList.remove("riscado");
+                mostrarArray();
             }
         });
     }
+function deletarRender(event){
+    
+    if(array.length>-1){
+        const clicado = event.currentTarget;
+        const boxes = clicado.closest(".tarefa"); 
+        array.splice(boxes.selectedIndex, 1);
+        boxes.remove();    
+        mostrarArray();
+    }
+        
+    
+}
+
