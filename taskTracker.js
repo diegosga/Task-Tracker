@@ -17,39 +17,51 @@ function Cadastrar(){
     let opcao = seletor.options[seletor.selectedIndex].value;
     let novaTarefa = {tarefa : task, status: opcao};
     if(task && opcao){
-        
         array.push(novaTarefa);
-        const quebra = document.createElement("br");
-        const divcheck = document.createElement('div');
-        divcheck.className = "tarefa";        
-
-        const checkbox = document.createElement('input');
-        checkbox.addEventListener('click',clickBoxes);
-        checkbox.type= "checkbox";
-        checkbox.checked = false;
-
-        const label= document.createElement("label");
-        label.htmlFor = checkbox.id;
-        label.textContent=`Tarefa: ${novaTarefa.tarefa} ; Status: ${novaTarefa.status}`;
-        
-        const deletar = document.createElement('button');
-        deletar.innerHTML = '<img src= "8917572.png" class = "lixo">';
-        deletar.classList.add("botao");
-        deletar.addEventListener('click',deletarRender);
-
-        if(novaTarefa.status == "completo"){
-            label.classList.add("riscado");
-            checkbox.checked = true;
-        }
-
-        divcheck.append(checkbox, label, deletar, quebra);
-        container.appendChild(divcheck);
-        mostrarArray();
+        renderTarefa();
     }
     else{
         alert("Não foi possível adicionar tarefa");
     }
 }
+
+function renderTarefa(){
+    container.innerHTML = "";
+    if(array.length>-1){
+        for(let i=0; i<array.length; i++){
+            const quebra = document.createElement("br");
+            const divcheck = document.createElement('div');
+            divcheck.className = "tarefa";        
+
+            const checkbox = document.createElement('input');
+            checkbox.addEventListener('click',clickBoxes);
+            checkbox.type= "checkbox";
+            checkbox.checked = false;
+
+            const label= document.createElement("label");
+            label.textContent=`Tarefa: ${array[i].tarefa} ; Status: ${array[i].status}`;
+                
+            const deletar = document.createElement('button');
+            deletar.innerHTML = '<img src= "8917572.png" class = "lixo">';
+            deletar.classList.add("botao");
+            deletar.addEventListener('click',deletarRender);
+
+            if(array[i].status == "completo"){
+                label.classList.add("riscado");
+                checkbox.checked = true;
+                }
+
+            divcheck.append(checkbox, label, deletar, quebra);
+            container.appendChild(divcheck);
+            
+        }
+        mostrarArray();
+    }
+    else{
+        console.log("Sem arrays pra renderizar");
+    }
+}
+
 
 function clickBoxes(){
     const checks = container.querySelectorAll('.tarefa');
@@ -59,12 +71,14 @@ function clickBoxes(){
             const lb = element.querySelector('label');
             if(cb.checked){
                 array[index].status= "completo";
+                renderTarefa()
                 lb.textContent = `Tarefa: ${array[index].tarefa} ; Status: ${array[index].status}`;
                 lb.style.textDecoration = "line-through";
                 lb.classList.add("riscado");
                 
             }else{
                 array[index].status= "incompleto";
+                renderTarefa()
                 lb.textContent = `Tarefa: ${array[index].tarefa} ; Status: ${array[index].status}`;
                 lb.style.textDecoration = "none";
                 lb.classList.remove("riscado");
@@ -75,13 +89,13 @@ function clickBoxes(){
 function deletarRender(event){
     
     if(array.length>-1){
-        const clicado = event.currentTarget;
-        const boxes = clicado.closest(".tarefa"); 
-        array.splice(boxes.selectedIndex, 1);
-        boxes.remove();    
-        mostrarArray();
-    }
-        
-    
+        const clicado = event.currentTarget.closest(".tarefa");
+        if(clicado){
+            const pai = clicado.parentElement;
+            const indice = Array.from(pai.children).indexOf(clicado);
+            array.splice(indice, 1);
+            renderTarefa();
+        }
+    } 
 }
 
